@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── CSS Variables ── */
+    :root {
+      --navy:   #0d1b2a;
+      --teal:   #0f9b8e;
+      --teal-light: #13c4b3;
+      --cream:  #f5f0e8;
+      --white:  #ffffff;
+      --gray:   #6c757d;
+      --card-shadow: 0 8px 32px rgba(13,27,42,.10);
+      --transition: all .35s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── Base ── */
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+      overflow-x: hidden;
+    }
+    h1, h2, h3, .display-font { font-family: 'Playfair Display', serif; }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--navy) !important;
+      padding: .9rem 0;
+      transition: var(--transition);
+    }
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--teal-light) !important;
+      letter-spacing: .5px;
+    }
+    .nav-link {
+      color: rgba(255,255,255,.75) !important;
+      font-weight: 500;
+      font-size: .92rem;
+      letter-spacing: .3px;
+      transition: var(--transition);
+      position: relative;
+      padding: .4rem .8rem !important;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: .8rem; right: .8rem; bottom: 0;
+      height: 2px;
+      background: var(--teal-light);
+      transform: scaleX(0);
+      transition: transform .3s ease;
+    }
+    .nav-link:hover { color: var(--white) !important; }
+    .nav-link:hover::after { transform: scaleX(1); }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 60%, #1a3a5c 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(15,155,142,.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-photo-wrapper {
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      border: 4px solid var(--teal);
+      box-shadow: 0 0 0 8px rgba(15,155,142,.18), 0 20px 60px rgba(0,0,0,.4);
+      overflow: hidden;
+      background: #1a3a5c;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      animation: fadeUp .8s ease both;
+    }
+    .hero-photo-wrapper img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-placeholder {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: rgba(255,255,255,.4);
+      font-size: .8rem;
+      text-align: center;
+      padding: 1rem;
+    }
+    .photo-placeholder i { font-size: 3rem; margin-bottom: .4rem; }
+
+    .hero-text { animation: fadeUp .8s .15s ease both; }
+    .hero-name {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: .5rem;
+    }
+    .hero-name .highlight { color: var(--teal-light); }
+    .hero-subtitle {
+      color: rgba(255,255,255,.6);
+      font-size: 1.05rem;
+      font-weight: 300;
+      letter-spacing: .5px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badges .badge {
+      background: rgba(15,155,142,.2);
+      color: var(--teal-light);
+      border: 1px solid rgba(15,155,142,.35);
+      font-size: .78rem;
+      font-weight: 400;
+      padding: .4rem .85rem;
+      border-radius: 20px;
+      margin-right: .4rem;
+      margin-bottom: .4rem;
+    }
+    .btn-teal {
+      background: var(--teal);
+      color: var(--white);
+      border: none;
+      padding: .65rem 1.8rem;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .btn-teal:hover {
+      background: var(--teal-light);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(15,155,142,.35);
+    }
+
+    /* ── Section Titles ── */
+    .section-label {
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal);
+      display: block;
+      margin-bottom: .4rem;
+    }
+    .section-title {
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      color: var(--navy);
+      margin-bottom: .5rem;
+    }
+    .section-divider {
+      width: 50px; height: 3px;
+      background: var(--teal);
+      border-radius: 2px;
+      margin: 0 auto 2.5rem;
+    }
+    section { padding: 90px 0; }
+    section:nth-child(even) { background: var(--white); }
+
+    /* ── Education ── */
+    .edu-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      padding: 2rem;
+      border-left: 4px solid var(--teal);
+      transition: var(--transition);
+      position: relative;
+    }
+    section:nth-child(even) .edu-card { background: var(--cream); }
+    .edu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(13,27,42,.15);
+    }
+    .edu-card .year-badge {
+      background: var(--teal);
+      color: var(--white);
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .3rem .8rem;
+      border-radius: 20px;
+    }
+    .edu-card .degree {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin: .6rem 0 .2rem;
+    }
+    .edu-card .school {
+      color: var(--gray);
+      font-size: .9rem;
+    }
+    .edu-card .school i { color: var(--teal); margin-right: .3rem; }
+
+    /* ── Skills ── */
+    #skills { background: var(--navy); }
+    #skills .section-label { color: var(--teal-light); }
+    #skills .section-title { color: var(--white); }
+    #skills .section-divider { background: var(--teal-light); }
+    .skill-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+      cursor: default;
+    }
+    .skill-card:hover {
+      background: rgba(15,155,142,.15);
+      border-color: var(--teal);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(15,155,142,.2);
+    }
+    .skill-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: rgba(15,155,142,.15);
+      border: 1px solid rgba(15,155,142,.3);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.6rem;
+      color: var(--teal-light);
+    }
+    .skill-name {
+      color: var(--white);
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    .skill-level {
+      font-size: .75rem;
+      color: rgba(255,255,255,.4);
+      margin-top: .25rem;
+    }
+    .progress-track {
+      height: 4px;
+      background: rgba(255,255,255,.08);
+      border-radius: 2px;
+      margin-top: .8rem;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--teal-light));
+      border-radius: 2px;
+      animation: growBar 1.2s ease both;
+      animation-play-state: paused;
+    }
+    .progress-fill.animate { animation-play-state: running; }
+    @keyframes growBar {
+      from { width: 0 !important; }
+      to   { }
+    }
+
+    /* ── Projects ── */
+    .project-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      transition: var(--transition);
+      height: 100%;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(13,27,42,.18);
+    }
+    .project-header {
+      background: linear-gradient(135deg, var(--navy), #1a3a5c);
+      padding: 2rem;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100px;
+    }
+    .project-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: rgba(255,255,255,.12);
+      font-weight: 700;
+    }
+    .project-icon-wrap {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: rgba(15,155,142,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      color: var(--teal-light);
+    }
+    .project-body { padding: 1.5rem; }
+    .project-title { font-size: 1.1rem; font-weight: 600; color: var(--navy); }
+    .project-desc { font-size: .88rem; color: var(--gray); margin: .5rem 0 1rem; line-height: 1.6; }
+    .tech-tag {
+      display: inline-block;
+      background: rgba(15,155,142,.1);
+      color: var(--teal);
+      border: 1px solid rgba(15,155,142,.25);
+      font-size: .72rem;
+      padding: .2rem .65rem;
+      border-radius: 20px;
+      margin-right: .3rem;
+      margin-bottom: .3rem;
+    }
+    .placeholder-project {
+      border: 2px dashed rgba(13,27,42,.15);
+      border-radius: 16px;
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--gray);
+      background: transparent;
+    }
+    .placeholder-project i { font-size: 2.5rem; color: rgba(13,27,42,.15); display: block; margin-bottom: .7rem; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.5);
+      text-align: center;
+      padding: 2rem 0;
+      font-size: .85rem;
+    }
+    footer a { color: var(--teal-light); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive tweaks ── */
+    @media (max-width: 767.98px) {
+      #hero { text-align: center; }
+      .hero-photo-wrapper { margin: 0 auto 2rem; }
+      .hero-badges { justify-content: center; }
+      .btn-teal { display: block; width: fit-content; margin: 0 auto; }
+      section { padding: 60px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════ NAVBAR ═══════════════════════════════ -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <!-- 💡 Replace "YourName" with your first name -->
+      <a class="navbar-brand" href="#hero">YourName.</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span style="color:#fff;font-size:1.4rem;"><i class="bi bi-list"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════ HERO ══════════════════════════════════ -->
+  <section id="hero" id="about">
+    <div class="container">
+      <div class="row align-items-center g-5">
+
+        <!-- Photo -->
+        <div class="col-12 col-md-auto d-flex justify-content-center">
+          <div class="hero-photo-wrapper">
+            <!--
+              💡 TO ADD YOUR PHOTO:
+                 Option A – local file:  <img src="photo.jpg" alt="Your Name" />
+                 Option B – URL:         <img src="https://your-link.com/photo.jpg" alt="Your Name" />
+                 Delete the .photo-placeholder div once you add the img tag.
+            -->
+            <div class="photo-placeholder">
+              <i class="bi bi-person-circle"></i>
+              <span>Add your<br>photo here</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text -->
+        <div class="col hero-text">
+          <span class="section-label" style="color:var(--teal-light);">Hello, I'm</span>
+          <h1 class="hero-name">
+            <!-- 💡 Replace with your First Name and Last Name (no MI) -->
+            <span class="highlight">First Name</span><br>Last Name
+          </h1>
+          <p class="hero-subtitle">BSIT Student &mdash; 2nd Year</p>
+          <div class="hero-badges d-flex flex-wrap mb-4">
+            <span class="badge">Python</span>
+            <span class="badge">CSS</span>
+            <span class="badge">Web Development</span>
+          </div>
+          <a href="#education" class="btn-teal d-inline-flex align-items-center gap-2">
+            View My Work <i class="bi bi-arrow-down-short"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ EDUCATION ═════════════════════════════ -->
+  <section id="education">
+    <div class="container">
+      <div class="text-center fade-in-section">
+        <span class="section-label">My Background</span>
+        <h2 class="section-title">Education</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="row justify-content-center g-4">
+
+        <!-- Current School -->
+        <div class="col-12 col-md-8 col-lg-6 fade-in-section">
+          <div class="edu-card">
+            <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
+              <div>
+                <span class="year-badge">2023 – Present</span>
+                <p class="degree">Bachelor of Science in Information Technology</p>
+                <p class="school">
+                  <i class="bi bi-building"></i>
+                  <!-- 💡 Replace with your actual school name -->
+                  [Your School Name Here]
+                </p>
+              </div>
+              <i class="bi bi-mortarboard-fill fs-2" style="color:var(--teal);opacity:.3;"></i>
+            </div>
+            <hr style="border-color:rgba(13,27,42,.07);">
+            <p class="mb-0" style="font-size:.88rem;color:var(--gray);">
+              Currently a <strong>2nd Year</strong> student, building a strong foundation in software development,
+              networking, and information systems.
+            </p>
+          </div>
+        </div>
+
+        <!-- Previous School (optional) -->
+        <div class="col-12 col-md-8 col-lg-6 fade-in-section">
+          <div class="edu-card" style="border-left-color:#6c757d;">
+            <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
+              <div>
+                <span class="year-badge" style="background:var(--gray);">e.g. 2019 – 2023</span>
+                <p class="degree">Senior High School – [Track / Strand]</p>
+                <p class="school">
+                  <i class="bi bi-building"></i>
+                  <!-- 💡 Replace with your SHS or previous school -->
+                  [Your Previous School Name Here]
+                </p>
+              </div>
+              <i class="bi bi-book-fill fs-2" style="color:var(--gray);opacity:.25;"></i>
+            </div>
+            <hr style="border-color:rgba(13,27,42,.07);">
+            <p class="mb-0" style="font-size:.88rem;color:var(--gray);">
+              <!-- 💡 Add a short note about your SHS years, or remove this card entirely -->
+              [Optional: Short description of your SHS experience or honors.]
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SKILLS ════════════════════════════════ -->
+  <section id="skills">
+    <div class="container">
+      <div class="text-center fade-in-section">
+        <span class="section-label">What I Know</span>
+        <h2 class="section-title">Skills</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="row g-3 justify-content-center">
+
+        <!-- Python -->
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2 fade-in-section">
+          <div class="skill-card">
+            <div class="skill-icon"><i class="bi bi-filetype-py"></i></div>
+            <p class="skill-name">Python</p>
+            <p class="skill-level">Intermediate</p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:60%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSS -->
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2 fade-in-section">
+          <div class="skill-card">
+            <div class="skill-icon"><i class="bi bi-filetype-css"></i></div>
+            <p class="skill-name">CSS</p>
+            <p class="skill-level">Intermediate</p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:55%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!--
+          💡 HOW TO ADD MORE SKILLS — copy this block and change the icon, name & level:
+
+          <div class="col-6 col-sm-4 col-md-3 col-lg-2 fade-in-section">
+            <div class="skill-card">
+              <div class="skill-icon"><i class="bi bi-filetype-html"></i></div>
+              <p class="skill-name">HTML</p>
+              <p class="skill-level">Beginner</p>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:40%;"></div>
+              </div>
+            </div>
+          </div>
+
+          Bootstrap Icon reference → https://icons.getbootstrap.com/
+          Progress: 20% = Beginner | 50% = Intermediate | 80% = Advanced | 95% = Expert
+        -->
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ PROJECTS ══════════════════════════════ -->
+  <section id="projects">
+    <div class="container">
+      <div class="text-center fade-in-section">
+        <span class="section-label">What I've Built</span>
+        <h2 class="section-title">Projects</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="row g-4">
+
+        <!-- Placeholder project slots -->
+        <div class="col-12 col-md-6 col-lg-4 fade-in-section">
+          <div class="placeholder-project h-100">
+            <i class="bi bi-folder-plus"></i>
+            <h6 style="color:var(--navy);font-weight:600;">Project #1</h6>
+            <p style="font-size:.85rem;">
+              <!-- 💡 Replace with: project name, short description, and tech used -->
+              [Project Name]<br>
+              <span style="color:#aaa;">[Short description of what it does]</span>
+            </p>
+            <span class="tech-tag">[Tech 1]</span>
+            <span class="tech-tag">[Tech 2]</span>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4 fade-in-section">
+          <div class="placeholder-project h-100">
+            <i class="bi bi-folder-plus"></i>
+            <h6 style="color:var(--navy);font-weight:600;">Project #2</h6>
+            <p style="font-size:.85rem;">
+              [Project Name]<br>
+              <span style="color:#aaa;">[Short description of what it does]</span>
+            </p>
+            <span class="tech-tag">[Tech 1]</span>
+            <span class="tech-tag">[Tech 2]</span>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4 fade-in-section">
+          <div class="placeholder-project h-100">
+            <i class="bi bi-folder-plus"></i>
+            <h6 style="color:var(--navy);font-weight:600;">Project #3</h6>
+            <p style="font-size:.85rem;">
+              [Project Name]<br>
+              <span style="color:#aaa;">[Short description of what it does]</span>
+            </p>
+            <span class="tech-tag">[Tech 1]</span>
+            <span class="tech-tag">[Tech 2]</span>
+          </div>
+        </div>
+
+        <!--
+          💡 HOW TO ADD A REAL PROJECT — replace a placeholder block with this:
+
+          <div class="col-12 col-md-6 col-lg-4 fade-in-section">
+            <div class="project-card">
+              <div class="project-header">
+                <div class="project-icon-wrap"><i class="bi bi-laptop"></i></div>
+              </div>
+              <div class="project-body">
+                <h5 class="project-title">Project Title</h5>
+                <p class="project-desc">A short 1-2 sentence description of the project and what it does.</p>
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">CSS</span>
+              </div>
+            </div>
+          </div>
+        -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER ════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <!-- 💡 Replace with your name -->
+      <p class="mb-1">&copy; 2025 <strong style="color:var(--teal-light);">[Your Full Name]</strong></p>
+      <p class="mb-0" style="font-size:.78rem;">Built with Bootstrap 5 &bull; Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // ── Scroll-triggered fade-in ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Animate skill bars
+          entry.target.querySelectorAll('.progress-fill').forEach(bar => {
+            bar.classList.add('animate');
+          });
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+
+    // ── Navbar shadow on scroll ──
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      navbar.style.boxShadow = window.scrollY > 20
+        ? '0 4px 24px rgba(0,0,0,.25)'
+        : 'none';
+    });
+
+    // ── Active nav link highlight ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 80) current = sec.id;
+      });
+      navLinks.forEach(link => {
+        link.style.color = link.getAttribute('href') === '#' + current
+          ? 'var(--white)'
+          : '';
+      });
+    });
+  </script>
+</body>
+</html>
